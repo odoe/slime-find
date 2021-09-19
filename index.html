@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slime Check</title>
+    <link href="https://fonts.googleapis.com/css?family=Gloria+Hallelujah&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./styles.css" />
+</head>
+
+<body>
+    <main>
+        <wired-card elevation="5">
+            <h1>Find Some Slime</h1>
+            <wired-link href="https://adaslimes.com/" target="_blank">Ada Slime</wired-link>
+        </wired-card>
+        <section>
+            <div id="pricing">
+                <label>
+                    Min Price:
+                    <wired-input id="minprice" type="number" placeholder="0" value="0"></wired-input>
+                </label>
+                <br />
+                <label>
+                    Max Price:
+                    <wired-input id="maxprice" type="number" placeholder="50" value="50"></wired-input>
+                </label>
+            </div>
+            <hr />
+            <label>Any of these rare Traits</label>
+            <br />
+            <div id="traits">
+            </div>
+            <hr />
+            <wired-button id="search" elevation="2">Search</wired-button>
+
+            <div id="waiting">
+            </div>
+
+            <div id="results"></div>
+        </section>
+    </main>
+    <script type="module" src="https://unpkg.com/wired-elements?module"></script>
+    <script type="module" src="./index.js"></script>
+</body>
+
+</html>
