@@ -110,7 +110,7 @@ function slimeFactory(results) {
                     <wired-divider></wired-divider>
                     Rarity: <label class="${result.rarity.toLowerCase()}">${result.rarity}</label>
                     <br />
-                    Rare Traits: ${result.traits.map((x) => {
+                    Traits: ${result.traits.map((x) => {
                         return `
                             <label class="${rareTraits.includes(x) ? 'rare' : ''}">${x}</label>
                         `;
