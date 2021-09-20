@@ -2,7 +2,7 @@ let assets = [];
 let page = 1;
 const cnftUrl = 'https://api.cnft.io/market/listings';
 
-export async function search({ pricemin, pricemax, traits, rarities }) {
+export async function search({ pricemin, pricemax, traits, rarities, accessories }) {
     return new Promise((resolve) => {
         async function findSlimes() {
             const query = {
@@ -30,18 +30,26 @@ export async function search({ pricemin, pricemax, traits, rarities }) {
                 body: formBody
             });
             const data = await response.json();
-            console.log('pass number', page);
+            console.log('page number', page);
             assets = [...assets, ...data.assets];
             if (data.assets.length < 1) {
                 console.log('done', assets.length);
                 const values = assets.filter((x) => x.sold === false)
-                const valid = values.filter((x) => {
+                let valid = values.filter((x) => {
                     const valueTraits = x.metadata.tags.find(a => a.traits);
                     return valueTraits.traits.some((a) => traits.includes(a));
                 }).filter((x) => {
                     const { rarity } = x.metadata.tags.find((a) => a.rarity);
                     return rarities.includes(rarity);
                 });
+
+                if (accessories.length) {
+                    valid = valid.filter((x) => {
+                        const accessoriesValues = x.metadata.tags.find((a) => a.accessories);
+                        return accessoriesValues?.accessories.some((a) => accessories.includes(a));
+                    })
+                }
+
                 const results =
                     valid.sort((a, b) => a.price < b.price ? -1 : 1).map((x) => resultFactory(x, traits))
                 page = 1;
@@ -70,11 +78,12 @@ function resultFactory(result, traits) {
     }, 0);
     const { rarity } = result.metadata.tags.find((x) => x.rarity);
     return {
-        id: `https://www.cnft.io/token.php?id=${result.id}`,
+        id: result.id,
         price: result.price,
         rarity,
         rareTraits: goodTraits,
         traits: valueTraits.traits,
-        accessories: valueAccessories ? valueAccessories.accessories : []
+        accessories: valueAccessories ? valueAccessories.accessories : [],
+        thumbnail: result.metadata.thumbnail.replace('ipfs://', '')
     };
 }

@@ -11,6 +11,7 @@ const minPriceInput = document.getElementById('minprice');
 const maxPriceInput = document.getElementById('maxprice');
 const waiting = document.getElementById('waiting');
 const rarities = document.getElementById('rarities');
+const accessories = document.getElementById('accessories');
 
 const spinner = document.createElement('wired-spinner');
 spinner.spinning = true;
@@ -29,10 +30,12 @@ traitsContainer.appendChild(traitsFragment);
 searchBtn.addEventListener('click', async () => {
     const values = [...document.querySelectorAll('.traits')].filter((x => x.checked)).map((a) => a.innerText);
     const rarityValues = [...rarities.querySelectorAll('wired-checkbox')].filter(x => x.checked).map((a) => a.innerText);
+    const accessoryValues = [...accessories.querySelectorAll('wired-checkbox')].filter(x => x.checked).map((a) => a.innerText);
     const query = {
         pricemin: minPriceInput.value,
         pricemax: maxPriceInput.value,
         rarities: rarityValues,
+        accessories: accessoryValues,
         traits: values
     };
     resultsContainer.innerHTML = '';
@@ -50,24 +53,26 @@ function slimeFactory(results) {
     for (let result of results) {
         const card = document.createElement('wired-card');
         const content = `
-            <div>
-                <wired-link href="${result.id}" target="_blank">${result.id}</wired-link>
-                <br />
-                Price: ${result.price/1000000} ada
-                <hr />
-                Rarity: <label class="${result.rarity.toLowerCase()}">${result.rarity}</label>
-                <br />
-                Rare Traits: ${result.traits.map((x) => {
-                    return `
-                        <label class="${traits.includes(x) ? 'rare' : ''}">${x}</label>
-                    `;
-                }).join(', ')}
-                <br />
-                <label class="${result.accessories.length ? 'accessories' : ''}">Accessories</label>:
-                    ${result.accessories.length ? result.accessories.map((x) => {
-                    return `<label>${x}</label>`
-                }).join(',') : 'None'}</label>
-                <br />
+            <div class="card-content">
+                <a href="https://www.cnft.io/token.php?id=${result.id}" target="_blank">
+                    <wired-image class="slime" src="https://ipfs.blockfrost.dev/ipfs/${result.thumbnail}"></wired-image>
+                </a>
+                <div class="details">
+                    Price: ${result.price/1000000} ada
+                    <wired-divider></wired-divider>
+                    Rarity: <label class="${result.rarity.toLowerCase()}">${result.rarity}</label>
+                    <br />
+                    Rare Traits: ${result.traits.map((x) => {
+                        return `
+                            <label class="${traits.includes(x) ? 'rare' : ''}">${x}</label>
+                        `;
+                    }).join(', ')}
+                    <br />
+                    <label class="${result.accessories.length ? 'accessories' : ''}">Accessories</label>:
+                        ${result.accessories.length ? result.accessories.map((x) => {
+                        return `<label>${x}</label>`
+                    }).join(',') : 'None'}</label>
+                </div>
             </div>
         `;
         card.innerHTML = content;

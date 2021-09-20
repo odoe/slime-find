@@ -27,6 +27,16 @@ body {
     font-family: inherit;
   }
 
+  .card-content {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .slime {  
+    width: 200px;
+    height: 200px;
+  }
+
   .rarities {
     max-width: 200px;
     text-align: left;
