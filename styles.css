@@ -27,8 +27,28 @@ body {
     font-family: inherit;
   }
 
+  .rarities {
+    max-width: 200px;
+    text-align: left;
+  }
+
   .rare {
       color: #fff;
       background-color: #7369FE;
+  }
+
+  .legendary {
+      color: #fff;
+      background-color: #E2854C;
+  }
+
+  .epic {
+    color: #fff;
+    background-color: #1C69AD;
+  }
+
+  .accessories {
+      color: #fff;
+      background-color: #66ff00;
   }
   

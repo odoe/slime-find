@@ -2,7 +2,7 @@ let assets = [];
 let page = 1;
 const cnftUrl = 'https://api.cnft.io/market/listings';
 
-export async function search({ pricemin, pricemax, traits }) {
+export async function search({ pricemin, pricemax, traits, rarities }) {
     return new Promise((resolve) => {
         async function findSlimes() {
             const query = {
@@ -38,6 +38,9 @@ export async function search({ pricemin, pricemax, traits }) {
                 const valid = values.filter((x) => {
                     const valueTraits = x.metadata.tags.find(a => a.traits);
                     return valueTraits.traits.some((a) => traits.includes(a));
+                }).filter((x) => {
+                    const { rarity } = x.metadata.tags.find((a) => a.rarity);
+                    return rarities.includes(rarity);
                 });
                 const results =
                     valid.sort((a, b) => a.price < b.price ? -1 : 1).map((x) => resultFactory(x, traits))
@@ -65,9 +68,11 @@ function resultFactory(result, traits) {
             return a;
         }
     }, 0);
+    const { rarity } = result.metadata.tags.find((x) => x.rarity);
     return {
         id: `https://www.cnft.io/token.php?id=${result.id}`,
         price: result.price,
+        rarity,
         rareTraits: goodTraits,
         traits: valueTraits.traits,
         accessories: valueAccessories ? valueAccessories.accessories : []
