@@ -1,64 +1,73 @@
 body {
-    margin: 0;
-    font-family: "Gloria Hallelujah", cursive;
-    font-size: 16px;
-    line-height: 1.8;
-  }
-  main {
-    padding: 16px;
-    text-align: center;
-  }
-  wired-card {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 10px;
-    display: block;
-  }
-  section {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 60px 0;
-  }
-  wired-button {
-    margin: 8px;
-  }
-  wired-input {
-    width: 200px;
-    font-family: inherit;
-  }
+  margin: 0;
+  font-family: "Gloria Hallelujah", cursive;
+  font-size: 16px;
+  line-height: 1.8;
+}
+main {
+  padding: 16px;
+  text-align: center;
+}
+wired-card {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 10px;
+  display: block;
+}
+section {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 60px 0;
+}
+wired-button {
+  margin: 8px;
+}
+wired-input {
+  width: 200px;
+  font-family: inherit;
+}
 
+.card-content {
+  display: flex;
+  flex-direction: row;
+}
+
+.slime {
+  width: 200px;
+  height: 200px;
+}
+
+.rarities {
+  max-width: 200px;
+  text-align: left;
+}
+
+.rare {
+  color: #fff;
+  background-color: #7369fe;
+}
+
+.legendary {
+  color: #fff;
+  background-color: #e2854c;
+}
+
+.epic {
+  color: #fff;
+  background-color: #1c69ad;
+}
+
+.accessories {
+  color: #fff;
+  background-color: #66ff00;
+}
+
+@media screen
+and (min-device-width: 200px)
+and (max-device-width: 800px)
+{
   .card-content {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
   }
-
-  .slime {  
-    width: 200px;
-    height: 200px;
-  }
-
-  .rarities {
-    max-width: 200px;
-    text-align: left;
-  }
-
-  .rare {
-      color: #fff;
-      background-color: #7369FE;
-  }
-
-  .legendary {
-      color: #fff;
-      background-color: #E2854C;
-  }
-
-  .epic {
-    color: #fff;
-    background-color: #1C69AD;
-  }
-
-  .accessories {
-      color: #fff;
-      background-color: #66ff00;
-  }
-  
+}
