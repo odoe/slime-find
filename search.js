@@ -36,12 +36,16 @@ export async function search({ pricemin, pricemax, traits, rarities, accessories
                 console.log('done', assets.length);
                 const values = assets.filter((x) => x.sold === false)
                 let valid = values.filter((x) => {
-                    const valueTraits = x.metadata.tags.find(a => a.traits);
-                    return valueTraits.traits.some((a) => traits.includes(a));
-                }).filter((x) => {
                     const { rarity } = x.metadata.tags.find((a) => a.rarity);
                     return rarities.includes(rarity);
                 });
+
+                if (traits.length) {
+                    valid = valid.filter((x) => {
+                        const valueTraits = x.metadata.tags.find(a => a.traits);
+                        return valueTraits.traits.some((a) => traits.includes(a));
+                    })
+                }
 
                 if (accessories.length) {
                     valid = valid.filter((x) => {
