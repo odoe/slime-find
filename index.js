@@ -1,7 +1,46 @@
 import { search } from './search.js';
 
+const rareTraits = [
+    'Black Color', 'Sharp Bubble', 'Heart Bubble', 'Ghost Eyes','Ghost Mouth', 'Star Bubble'
+];
+
+const colors = [
+    'White Color', 'Black Color', 'Purple Color', 'Red Color', 'Green Color',
+    'Yellow Color', 'Blue Color', 'Pink Color'
+];
+
+const eyes = [
+    'Ghost Eyes', 'Excited Eyes', 'Weird Eyes', 'Normal Eyes', 'Angry Eyes', 'Lazy Eyes', 'Happy Eyes'
+];
+
+const mouth = [
+    'Ghost Mouth', 'Long Mouth','Smiling Mouth', 'Silly Mouth', 'Frowning Mouth',
+    'Sad Open Mouth', 'Blank Mouth', 'Nervous Mouth'
+];
+
+const body = [
+    'Round Body', 'Horned Body'
+];
+
+const bubble = [
+    'Round Bubble', 'Sharp Bubble', 'Heart Bubble', 'Star Bubble'
+];
+
 const traits = [
-    'Sharp Bubble', 'Heart Bubble', 'Ghost Eyes','Ghost Mouth', 'Black Color', 'Star Bubble'
+    // Colors
+    'White Color', 'Black Color', 'Purple Color', 'Red Color', 'Green Color',
+    'Yellow Color', 'Blue Color', 'Pink Color',
+    // Eyes
+    'Ghost Eyes', 'Excited Eyes', 'Weird Eyes', 'Normal Eyes', 'Angry Eyes', 'Lazy Eyes', 'Happy Eyes',
+    // Mouth
+    'Ghost Mouth', 'Long Mouth','Smiling Mouth', 'Silly Mouth', 'Frowning Mouth',
+    'Sad Open Mouth', 'Blank Mouth', 'Nervous Mouth',
+    // Body
+    'Round Body', 'Horned Body',
+    // Normal
+    'Round Bubble',
+    // Extra
+    'Sharp Bubble', 'Heart Bubble', 'Star Bubble'
 ];
 
 const traitsContainer = document.getElementById('traits');
@@ -13,15 +52,24 @@ const waiting = document.getElementById('waiting');
 const rarities = document.getElementById('rarities');
 const accessories = document.getElementById('accessories');
 
+// traits containers
+const colorTraits = document.getElementById('color-traits');
+const eyeTraits = document.getElementById('eye-traits');
+const mouthTraits = document.getElementById('mouth-traits');
+const bodyTraits = document.getElementById('body-traits');
+const bubbleTraits = document.getElementById('bubble-traits');
+
 const spinner = document.createElement('wired-spinner');
 spinner.spinning = true;
 
 const traitsFragment = document.createDocumentFragment();
 for (let trait of traits) {
     const checkbox = document.createElement('wired-checkbox');
-    checkbox.classList.add('traits')
+    checkbox.classList.add('traits');
+    if (rareTraits.includes(trait)) {
+        checkbox.classList.add('rare');
+    }
     checkbox.innerText = trait
-    checkbox.checked = true;
     traitsFragment.appendChild(checkbox);
 }
 
@@ -64,7 +112,7 @@ function slimeFactory(results) {
                     <br />
                     Rare Traits: ${result.traits.map((x) => {
                         return `
-                            <label class="${traits.includes(x) ? 'rare' : ''}">${x}</label>
+                            <label class="${rareTraits.includes(x) ? 'rare' : ''}">${x}</label>
                         `;
                     }).join(', ')}
                     <br />
