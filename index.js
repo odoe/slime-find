@@ -106,7 +106,7 @@ function slimeFactory(results) {
                 <div class="card-content-img">
                     <div class="slime">
                         <wired-image class="slime-img" src="https://ipfs.blockfrost.dev/ipfs/${result.thumbnail}"></wired-image>
-                        <h3 class="slime-name">${result.name}</h3>
+                        <h3 class="slime-name ${result.traits.includes('Black Color') ? 'slime-name font-white' : 'slime-name font-normal'}">${result.name}</h3>
                     </div>
                 </div>
                 </a>

@@ -81,7 +81,6 @@ function resultFactory(result, traits) {
         }
     }, 0);
     const { rarity } = result.metadata.tags.find((x) => x.rarity);
-    console.log(result)
     return {
         id: result.id,
         price: result.price,

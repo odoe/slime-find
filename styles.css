@@ -55,6 +55,14 @@ wired-input {
   margin: 0;
 }
 
+.font-white {
+  color: #fff;
+}
+
+.font-normal {
+  color: #000;
+}
+
 .rarities {
   max-width: 200px;
   text-align: left;
