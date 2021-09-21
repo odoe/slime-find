@@ -38,7 +38,7 @@ export async function search({ pricemin, pricemax, traits, rarities, accessories
                 let valid = values.filter((x) => {
                     const { rarity } = x.metadata.tags.find((a) => a.rarity);
                     return rarities.includes(rarity);
-                });
+                })
 
                 if (traits.length) {
                     valid = valid.filter((x) => {
@@ -81,9 +81,11 @@ function resultFactory(result, traits) {
         }
     }, 0);
     const { rarity } = result.metadata.tags.find((x) => x.rarity);
+    console.log(result)
     return {
         id: result.id,
         price: result.price,
+        name: result.metadata.name,
         rarity,
         rareTraits: goodTraits,
         traits: valueTraits.traits,

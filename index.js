@@ -103,7 +103,12 @@ function slimeFactory(results) {
         const content = `
             <div class="card-content">
                 <a href="https://www.cnft.io/token.php?id=${result.id}" target="_blank">
-                    <wired-image class="slime" src="https://ipfs.blockfrost.dev/ipfs/${result.thumbnail}"></wired-image>
+                <div class="card-content-img">
+                    <div class="slime">
+                        <wired-image class="slime-img" src="https://ipfs.blockfrost.dev/ipfs/${result.thumbnail}"></wired-image>
+                        <h3 class="slime-name">${result.name}</h3>
+                    </div>
+                </div>
                 </a>
                 <div class="details">
                     Price: ${result.price/1000000} ada
