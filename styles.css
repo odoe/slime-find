@@ -63,6 +63,11 @@ wired-input {
   color: #000;
 }
 
+.tip-address{
+  font-size: x-small;
+  overflow-wrap: break-word;
+}
+
 .rarities {
   max-width: 200px;
   text-align: left;
