@@ -4,14 +4,19 @@ const cnftUrl = 'https://api.cnft.io/market/listings';
 
 export async function search({ pricemin, pricemax, traits, rarities, accessories }) {
     return new Promise((resolve) => {
-        async function findSlimes() {
+        let pass = 0;
+
+        async function fetchData(queryPage) {
             const query = {
                 search: 'acedcd940e1dbb6d774b6504eddc03bcbae50d6cebb2099e99f68d26',
+                // search: '',
+                // project: 'AdaSlime',
                 sort: 'date',
                 order: 'desc',
                 pricemin,
                 pricemax,
-                page
+                page: queryPage,
+                // verified: false
             };
             
             let formBody = [];
@@ -30,43 +35,55 @@ export async function search({ pricemin, pricemax, traits, rarities, accessories
                 body: formBody
             });
             const data = await response.json();
-            console.log('page number', page);
-            assets = [...assets, ...data.assets];
-            if (data.assets.length < 1) {
-                console.log('done', assets.length);
-                const values = assets.filter((x) => x.sold === false)
-                let valid = values.filter((x) => {
-                    const { rarity } = x.metadata.tags.find((a) => a.rarity);
-                    return rarities.includes(rarity);
-                })
-
-                if (traits.length) {
-                    valid = valid.filter((x) => {
-                        const valueTraits = x.metadata.tags.find(a => a.traits);
-                        return valueTraits.traits.some((a) => traits.includes(a));
-                    })
-                }
-
-                if (accessories.length) {
-                    valid = valid.filter((x) => {
-                        const accessoriesValues = x.metadata.tags.find((a) => a.accessories);
-                        return accessoriesValues?.accessories.some((a) => accessories.includes(a));
-                    })
-                }
-
-                const results =
-                    valid.sort((a, b) => a.price < b.price ? -1 : 1).map((x) => resultFactory(x, traits))
-                page = 1;
-                assets = [];
-                resolve(results);
-        
-            } else {
-                page = page + 1;
-                findSlimes(traits)
-            }
+            return data;
         }
 
-        findSlimes();
+        async function findNFTs() {
+            const data = await fetchData(page);
+            assets = [...assets, ...data.assets];
+            if (pass === 0 && data.found > 25) {
+                pass = 1;
+                const totalPages = Math.ceil(data.found/25) - 1;
+                assets = [...assets, ...data.assets];
+                let promises = [];
+                for (let i = 0; i <= totalPages; i++) {
+                    page = page + 1;
+                    promises.push(fetchData(page));
+                }
+                const results = await Promise.all(promises);
+                assets = results.reduce((a, b) => {
+                    return [...a, ...b.assets];
+                }, assets);
+            }
+
+            const values = assets.filter((x) => x.sold === false)
+            let valid = values.filter((x) => {
+                const { rarity } = x.metadata.tags.find((a) => a.rarity);
+                return rarities.includes(rarity);
+            })
+
+            if (traits.length) {
+                valid = valid.filter((x) => {
+                    const valueTraits = x.metadata.tags.find(a => a.traits);
+                    return valueTraits.traits.some((a) => traits.includes(a));
+                })
+            }
+
+            if (accessories.length) {
+                valid = valid.filter((x) => {
+                    const accessoriesValues = x.metadata.tags.find((a) => a.accessories);
+                    return accessoriesValues?.accessories.some((a) => accessories.includes(a));
+                })
+            }
+
+            const results =
+                valid.sort((a, b) => a.price < b.price ? -1 : 1).map((x) => resultFactory(x, traits))
+            page = 1;
+            assets = [];
+            resolve(results);
+        }
+
+        findNFTs();
     });
 }
 
